@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Writing Mentor - Enhanced</title>
+  <style>
+    :root {
+      --primary-color: #ec4899;
+      --secondary-color: #f9a8d4;
+      --bg-color: #fdf2f8;
+      --card-bg: #ffffff;
+      --text-main: #831843;
+      --success-color: #10b981;
+      --info-color: #3b82f6;
+      --accent-color: #db2777;
+      --font-family: 'Times New Roman', Times, serif;
+    }
+
+    /* Theme 1: Pink Dream */
+    .theme-pink {
+      --primary-color: #ec4899;
+      --secondary-color: #f9a8d4;
+      --bg-color: #fdf2f8;
+      --card-bg: #ffffff;
+      --text-main: #831843;
+      --success-color: #10b981;
+      --info-color: #3b82f6;
+      --accent-color: #db2777;
+      --gradient: linear-gradient(135deg, #fce7f3, #fdf2f8);
+    }
+
+    /* Theme 2: Blue Purple */
+    .theme-blue-purple {
+      --primary-color: #8b5cf6;
+      --secondary-color: #c4b5fd;
+      --bg-color: #f8faff;
+      --card-bg: #ffffff;
+      --text-main: #4c1d95;
+      --success-color: #06b6d4;
+      --info-color: #6366f1;
+      --accent-color: #7c3aed;
+      --gradient: linear-gradient(135deg, #e0e7ff, #f3e8ff);
+    }
+
+    /* Theme 3: Clean White */
+    .theme-white {
+      --primary-color: #374151;
+      --secondary-color: #e5e7eb;
+      --bg-color: #ffffff;
+      --card-bg: #f9fafb;
+      --text-main: #111827;
+      --success-color: #059669;
+      --info-color: #2563eb;
+      --accent-color: #6b7280;
+      --gradient: linear-gradient(135deg, #f9fafb, #ffffff);
+    }
+
+    body {
+      font-family: var(--font-family);
+      padding: 24px;
+      line-height: 1.6;
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--gradient, var(--bg-color));
+      color: var(--text-main);
+      transition: all 0.3s ease;
+      min-height: 100vh;
+    }
+
+    h1 { 
+      margin-top: 0; 
+      color: var(--primary-color);
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: var(--text-main);
+      opacity: 0.8;
+      margin-bottom: 30px;
+      font-style: italic;
+    }
+
+    img { 
+      margin: 0 auto 30px auto; 
+      max-width: 160px; 
+      display: block;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+    }
+
+    section {
+      background: var(--card-bg);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 20px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.1),
+        0 0 0 1px rgba(255,255,255,0.5);
+      backdrop-filter: blur(10px);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    section:hover {
+      transform: translateY(-2px);
+      box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.15),
+        0 0 0 1px rgba(255,255,255,0.6);
+    }
+
+    h2, h3 { 
+      margin-top: 0; 
+      color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    h2::before, h3::before {
+      content: '';
+      width: 4px;
+      height: 20px;
+      background: var(--accent-color);
+      border-radius: 2px;
+      display: inline-block;
+    }
+
+    /* Theme and Font Selector */
+    .theme-selector {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .theme-option {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 3px solid transparent;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .theme-option:hover {
+      transform: scale(1.1);
+    }
+
+    .theme-option.active {
+      border-color: var(--text-main);
+      transform: scale(1.1);
+    }
+
+    .theme-pink-btn { background: linear-gradient(135deg, #ec4899, #f9a8d4); }
+    .theme-blue-purple-btn { background: linear-gradient(135deg, #8b5cf6, #c4b5fd); }
+    .theme-white-btn { background: linear-gradient(135deg, #374151, #e5e7eb); }
+
+    .font-selector {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .font-option {
+      padding: 8px 16px;
+      border-radius: 25px;
+      background: var(--card-bg);
+      border: 2px solid var(--secondary-color);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+    }
+
+    .font-option:hover {
+      background: var(--secondary-color);
+      color: white;
+    }
+
+    .font-option.active {
+      background: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+    }
+
+    .font-times { font-family: 'Times New Roman', Times, serif; }
+    .font-comic { font-family: 'Comic Sans MS', cursive, sans-serif; }
+    .font-poppins { font-family: 'Poppins', sans-serif; }
+
+    /* Topic Selection Grid */
+    .topic-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin: 20px 0;
+    }
+
+    .topic-card {
+      padding: 20px;
+      border: 2px solid var(--secondary-color);
+      border-radius: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      background: var(--card-bg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .topic-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--accent-color);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .topic-card:hover {
+      border-color: var(--primary-color);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .topic-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .topic-card.selected {
+      border-color: var(--primary-color);
+      background: linear-gradient(135deg, var(--card-bg), var(--secondary-color));
+      transform: translateY(-2px);
+    }
+
+    .topic-card.selected::before {
+      transform: scaleX(1);
+    }
+
+    /* Word Count Selection */
+    .word-count-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .word-count-btn {
+      padding: 16px 12px;
+      border: 2px solid var(--secondary-color);
+      border-radius: 12px;
+      background: var(--card-bg);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      position: relative;
+    }
+
+    .word-count-btn:hover {
+      border-color: var(--primary-color);
+      transform: translateY(-2px);
+    }
+
+    .word-count-btn.selected {
+      background: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .level-badge {
+      font-size: 0.7rem;
+      padding: 4px 8px;
+      border-radius: 12px;
+      background: var(--secondary-color);
+      color: var(--text-main);
+      margin-left: 6px;
+    }
+
+    .word-count-btn.selected .level-badge {
+      background: rgba(255,255,255,0.3);
+      color: white;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 150px;
+      padding: 16px;
+      border: 2px solid var(--secondary-color);
+      border-radius: 12px;
+      font-size: 1rem;
+      margin-bottom: 16px;
+      resize: vertical;
+      font-family: inherit;
+      background: var(--card-bg);
+      color: var(--text-main);
+      transition: all 0.3s ease;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+    }
+
+    select {
+      padding: 12px;
+      border-radius: 8px;
+      border: 2px solid var(--secondary-color);
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      background: var(--card-bg);
+      color: var(--text-main);
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    button {
+      padding: 12px 24px;
+      border-radius: 25px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+      font-family: inherit;
+      position: relative;
+      overflow: hidden;
+    }
+
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s;
+    }
+
+    button:hover::before {
+      left: 100%;
+    }
+
+    .btn-primary { 
+      background: var(--primary-color); 
+      color: white; 
+      box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+    }
+    .btn-primary:hover { 
+      background: var(--secondary-color); 
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(236, 72, 153, 0.4);
+    }
+    
+    .btn-secondary { 
+      background: var(--secondary-color); 
+      color: var(--text-main); 
+    }
+    .btn-secondary:hover { 
+      background: var(--primary-color); 
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .btn-success { 
+      background: var(--success-color); 
+      color: white; 
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+    .btn-success:hover { 
+      background: #059669;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+    }
+
+    button:disabled { 
+      opacity: 0.6; 
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    .api-settings { 
+      margin-top: 10px; 
+      padding: 16px; 
+      background: var(--secondary-color); 
+      border-radius: 12px; 
+      font-size: 0.9rem; 
+      opacity: 0.9;
+    }
+
+    /* Tabs for different sections */
+    .tab-container {
+      margin: 20px 0;
+    }
+
+    .tabs {
+      display: flex;
+      border-bottom: 2px solid var(--secondary-color);
+      margin-bottom: 20px;
+      border-radius: 8px 8px 0 0;
+      overflow: hidden;
+    }
+
+    .tab {
+      padding: 12px 24px;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s ease;
+      flex: 1;
+      text-align: center;
+      background: var(--card-bg);
+    }
+
+    .tab:hover {
+      background: var(--secondary-color);
+    }
+
+    .tab.active {
+      border-bottom-color: var(--accent-color);
+      font-weight: 600;
+      background: var(--card-bg);
+      color: var(--primary-color);
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Simulation mode switch */
+    .simulation-switch {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      font-weight: bold;
+      color: var(--success-color);
+      padding: 12px;
+      background: var(--secondary-color);
+      border-radius: 12px;
+    }
+
+    /* Assessment report */
+    #assessmentReport { 
+      display: none; 
+      border-left: 5px solid var(--accent-color);
+      animation: slideIn 0.5s ease;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    
+    .overall-feedback {
+      margin-bottom: 20px;
+      padding: 20px;
+      background: var(--success-color);
+      border-radius: 12px;
+      color: white;
+      font-weight: 500;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+
+    .score-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .score-card {
+      background: var(--card-bg);
+      border: 2px solid var(--secondary-color);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .score-card:hover {
+      transform: translateY(-2px);
+    }
+    
+    .score-card h3 {
+      font-size: 1rem;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--secondary-color);
+      padding-bottom: 12px;
+    }
+
+    .score-card .grade { 
+      font-size: 1.3rem; 
+      font-weight: bold; 
+      color: var(--primary-color); 
+    }
+    .score-card p { 
+      font-size: 0.9rem; 
+      color: var(--text-main); 
+      margin: 0; 
+      line-height: 1.5; 
+    }
+
+    /* Model Essay Section */
+    .model-essay {
+      background: var(--info-color);
+      border: 2px solid var(--secondary-color);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+      color: white;
+    }
+
+    .model-essay h4 {
+      margin-top: 0;
+      color: white;
+    }
+
+    .encouragement-message {
+      background: var(--success-color);
+      border: 2px solid var(--secondary-color);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+      color: white;
+      animation: bounce 0.5s ease;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 60%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
+      80% { transform: translateY(-5px); }
+    }
+
+    .writing-prompt {
+      background: var(--secondary-color);
+      border: 2px solid var(--secondary-color);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+      font-style: italic;
+      line-height: 1.6;
+      color: var(--text-main);
+    }
+
+    .status { 
+      font-size: 0.9rem; 
+      color: var(--text-main); 
+      margin-top: 12px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      background: var(--secondary-color);
+    }
+    .error { 
+      color: #dc2626; 
+      background: #fecaca;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body class="theme-pink">
+
+  <h1>🌟 AI Writing Mentor 🌟</h1>
+  <p class="subtitle">Enhance your English writing skills through personalized practice and AI feedback</p>
+  <img src="https://www.cuhk.edu.hk/english/images/cuhk_logo_2x.png" alt="CUHK Logo" />
+
+  <!-- Theme and Font Selector -->
+  <section>
+    <h2>🎨 Personalize Your Experience</h2>
+    
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+      <div>
+        <h3>Color Theme</h3>
+        <div class="theme-selector">
+          <div class="theme-option theme-pink-btn active" data-theme="pink"></div>
+          <div class="theme-option theme-blue-purple-btn" data-theme="blue-purple"></div>
+          <div class="theme-option theme-white-btn" data-theme="white"></div>
+        </div>
+      </div>
+      
+      <div>
+        <h3>Font Style</h3>
+        <div class="font-selector">
+          <div class="font-option font-times active" data-font="times">Times New Roman</div>
+          <div class="font-option font-comic" data-font="comic">Comic Sans</div>
+          <div class="font-option font-poppins" data-font="poppins">Poppins</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <h2 style="margin:0;">🔑 DeepSeek Connection</h2>
+      <button id="toggleKeyBtn" class="btn-secondary" style="padding:8px 16px;">Show Key</button>
+    </div>
+    <div class="api-settings">
+      <label for="apiKey" style="display:block; margin-bottom:8px; font-weight:500;">API Key (stored locally):</label>
+      <div style="display:flex; gap:12px;">
+        <input type="password" id="apiKey" placeholder="Paste DeepSeek API key here..." style="flex:1; padding:12px; border-radius:8px; border:2px solid var(--secondary-color); background: var(--card-bg); color: var(--text-main);">
+        <button id="saveKeyBtn" class="btn-primary">Save</button>
+      </div>
+      <div id="keyStatus" class="status"></div>
+    </div>
+  </section>
+
+  <!-- Topic Selection Section -->
+  <section id="topicSelection">
+    <h2>📚 Choose Your Writing Topic</h2>
+    <p>Select a topic category to get a random paragraph for writing practice:</p>
+    
+    <div class="topic-grid">
+      <div class="topic-card" data-topic="literature">📖 Literature & Poetry</div>
+      <div class="topic-card" data-topic="history">🏛️ History & Philosophy</div>
+      <div class="topic-card" data-topic="art">🎨 Art & Music</div>
+      <div class="topic-card" data-topic="politics">🌍 Current Affairs & Politics</div>
+      <div class="topic-card" data-topic="economics">💼 Economics & Business</div>
+      <div class="topic-card" data-topic="science">🔬 Scientific Research</div>
+      <div class="topic-card" data-topic="ai">🤖 Artificial Intelligence</div>
+      <div class="topic-card" data-topic="environment">🌱 Environment & Sustainability</div>
+    </div>
+
+    <div id="selectedTopicInfo" style="display: none; margin: 20px 0;">
+      <h3 id="topicTitle" style="margin: 0 0 12px 0;"></h3>
+      <div class="writing-prompt">
+        <strong>📝 Writing Prompt:</strong>
+        <div id="topicPrompt"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Word Count Selection -->
+  <section id="wordCountSection" style="display: none;">
+    <h2>📏 Select Word Count & Difficulty</h2>
+    <p>Choose your target length and difficulty level:</p>
+    
+    <div class="word-count-options">
+      <div class="word-count-btn" data-words="50" data-level="B1-C1">
+        ✏️ 50-80 words <span class="level-badge">B1-C1</span>
+      </div>
+      <div class="word-count-btn" data-words="100" data-level="B1-C2">
+        📝 100-150 words <span class="level-badge">B1-C2</span>
+      </div>
+      <div class="word-count-btn" data-words="180" data-level="B1-C2">
+        📄 180-220 words <span class="level-badge">B1-C2</span>
+      </div>
+      <div class="word-count-btn" data-words="250" data-level="B1-C2">
+        📑 250-350 words <span class="level-badge">B1-C2</span>
+      </div>
+      <div class="word-count-btn" data-words="400" data-level="B1-C2">
+        📊 400-500 words <span class="level-badge">B1-C2</span>
+      </div>
+      <div class="word-count-btn" data-words="500" data-level="B2-C2">
+        📚 500+ words <span class="level-badge">B2-C2</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Writing Section -->
+  <section id="writingSection" style="display: none;">
+    <h2>📝 Writing Practice</h2>
+    
+    <div class="tab-container">
+      <div class="tabs">
+        <div class="tab active" data-tab="write">✍️ Write Your Essay</div>
+        <div class="tab" data-tab="model">📖 Model Essay</div>
+        <div class="tab" data-tab="revise">✨ Revise & Improve</div>
+      </div>
+      
+      <div class="tab-content active" id="write-tab">
+        <div id="writingPrompt" class="writing-prompt"></div>
+        <textarea id="userText" placeholder="Write your essay here..."></textarea>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div style="font-weight: 600; color: var(--primary-color);">
+            📊 Word count: <span id="wordCount">0</span>
+          </div>
+          <button id="assessBtn" class="btn-primary">Analyze & Get Feedback</button>
+        </div>
+      </div>
+      
+      <div class="tab-content" id="model-tab">
+        <div class="model-essay">
+          <h4>🤖 AI-Generated Model Essay</h4>
+          <div id="modelEssayContent">Click "Generate Model Essay" to see an example</div>
+          <button id="generateModelBtn" class="btn-secondary" style="margin-top: 16px;">Generate Model Essay</button>
+        </div>
+      </div>
+      
+      <div class="tab-content" id="revise-tab">
+        <div class="encouragement-message" id="encouragementMessage" style="display: none;">
+          🎉 Great job on your revisions! Your writing is improving with each iteration.
+        </div>
+        <textarea id="revisedText" placeholder="Revise your essay based on the feedback..."></textarea>
+        <button id="resubmitBtn" class="btn-success">Submit Revision</button>
+      </div>
+    </div>
+
+    <div class="simulation-switch">
+      <input type="checkbox" id="simMode" checked>
+      <label for="simMode">Enable Simulation Mode (No API cost / Demo Mode)</label>
+    </div>
+
+    <div id="loadingStatus" class="status"></div>
+  </section>
+
+  <section id="assessmentReport">
+    <h2>📊 Assessment Report</h2>
+    <div id="generalFeedback" class="overall-feedback"></div>
+    <div class="score-grid">
+      <div class="score-card">
+        <h3>💬 Language <span id="score-lang" class="grade">-</span></h3>
+        <p id="desc-lang">Waiting...</p>
+      </div>
+      <div class="score-card">
+        <h3>🔄 Coherence <span id="score-coh" class="grade">-</span></h3>
+        <p id="desc-coh">Waiting...</p>
+      </div>
+      <div class="score-card">
+        <h3>📋 Content <span id="score-con" class="grade">-</span></h3>
+        <p id="desc-con">Waiting...</p>
+      </div>
+      <div class="score-card">
+        <h3>🏗️ Organization <span id="score-org" class="grade">-</span></h3>
+        <p id="desc-org">Waiting...</p>
+      </div>
+    </div>
+    
+    <div id="vocabularySuggestions" style="margin-top: 20px; display: none;">
+      <h3>💡 Vocabulary Enhancements</h3>
+      <div id="vocabList"></div>
+    </div>
+  </section>
+
+<script>
+  // DOM Elements
+  const apiKeyInput = document.getElementById("apiKey");
+  const toggleKeyBtn = document.getElementById("toggleKeyBtn");
+  const saveKeyBtn = document.getElementById("saveKeyBtn");
+  const keyStatus = document.getElementById("keyStatus");
+  const userTextInput = document.getElementById("userText");
+  const revisedTextInput = document.getElementById("revisedText");
+  const assessBtn = document.getElementById("assessBtn");
+  const resubmitBtn = document.getElementById("resubmitBtn");
+  const loadingStatus = document.getElementById("loadingStatus");
+  const assessmentReport = document.getElementById("assessmentReport");
+  const wordCountDisplay = document.getElementById("wordCount");
+  const generateModelBtn = document.getElementById("generateModelBtn");
+  const modelEssayContent = document.getElementById("modelEssayContent");
+  const encouragementMessage = document.getElementById("encouragementMessage");
+  const vocabSuggestions = document.getElementById("vocabularySuggestions");
+  const vocabList = document.getElementById("vocabList");
+  
+  // Theme and Font Elements
+  const themeOptions = document.querySelectorAll('.theme-option');
+  const fontOptions = document.querySelectorAll('.font-option');
+  
+  // Topic and writing elements
+  const topicCards = document.querySelectorAll('.topic-card');
+  const selectedTopicInfo = document.getElementById('selectedTopicInfo');
+  const topicTitle = document.getElementById('topicTitle');
+  const topicPrompt = document.getElementById('topicPrompt');
+  const wordCountSection = document.getElementById('wordCountSection');
+  const writingSection = document.getElementById('writingSection');
+  const writingPrompt = document.getElementById('writingPrompt');
+  const wordCountButtons = document.querySelectorAll('.word-count-btn');
+  
+  // Tab elements
+  const tabs = document.querySelectorAll('.tab');
+  const tabContents = document.querySelectorAll('.tab-content');
+
+  // State variables
+  let currentTopic = null;
+  let currentWordCount = null;
+  let currentLevel = null;
+  let currentPrompt = null;
+  let originalEssay = '';
+
+  // Initialize
+  (function init() {
+    // Load saved API key
+    const savedKey = localStorage.getItem("DEEPSEEK_KEY");
+    if (savedKey) { 
+      apiKeyInput.value = savedKey; 
+      keyStatus.textContent = "🔑 Key loaded from storage"; 
+    }
+
+    // Load saved theme and font
+    const savedTheme = localStorage.getItem("WRITING_THEME") || "pink";
+    const savedFont = localStorage.getItem("WRITING_FONT") || "times";
+    
+    applyTheme(savedTheme);
+    applyFont(savedFont);
+    
+    // Set active states
+    themeOptions.forEach(opt => {
+      if (opt.dataset.theme === savedTheme) {
+        opt.classList.add('active');
+      }
+    });
+    
+    fontOptions.forEach(opt => {
+      if (opt.dataset.font === savedFont) {
+        opt.classList.add('active');
+      }
+    });
+  })();
+
+  // Theme Switching
+  themeOptions.forEach(option => {
+    option.addEventListener('click', () => {
+      const theme = option.dataset.theme;
+      
+      themeOptions.forEach(opt => opt.classList.remove('active'));
+      option.classList.add('active');
+      
+      applyTheme(theme);
+      localStorage.setItem("WRITING_THEME", theme);
+    });
+  });
+
+  function applyTheme(theme) {
+    document.body.className = `theme-${theme}`;
+  }
+
+  // Font Switching
+  fontOptions.forEach(option => {
+    option.addEventListener('click', () => {
+      const font = option.dataset.font;
+      
+      fontOptions.forEach(opt => opt.classList.remove('active'));
+      option.classList.add('active');
+      
+      applyFont(font);
+      localStorage.setItem("WRITING_FONT", font);
+    });
+  });
+
+  function applyFont(font) {
+    document.documentElement.style.setProperty('--font-family', getComputedStyle(document.querySelector(`.font-${font}`)).fontFamily);
+  }
+
+  // API Key Management
+  toggleKeyBtn.addEventListener("click", () => {
+    if (apiKeyInput.type === "password") { 
+      apiKeyInput.type = "text"; 
+      toggleKeyBtn.textContent = "Hide Key"; 
+    } else { 
+      apiKeyInput.type = "password"; 
+      toggleKeyBtn.textContent = "Show Key"; 
+    }
+  });
+
+  saveKeyBtn.addEventListener("click", () => {
+    const key = apiKeyInput.value.trim();
+    if(key) { 
+      localStorage.setItem("DEEPSEEK_KEY", key); 
+      keyStatus.textContent = "✅ Key saved successfully!"; 
+      keyStatus.className = "status"; 
+    } else { 
+      keyStatus.textContent = "❌ Please paste a key."; 
+      keyStatus.className = "status error"; 
+    }
+  });
+
+  // Topic Selection - Now generates random paragraphs
+  topicCards.forEach(card => {
+    card.addEventListener('click', async () => {
+      // Remove selection from all cards
+      topicCards.forEach(c => c.classList.remove('selected'));
+      // Add selection to clicked card
+      card.classList.add('selected');
+      
+      currentTopic = card.getAttribute('data-topic');
+      const topicName = card.textContent.trim();
+      
+      // Show topic info
+      selectedTopicInfo.style.display = 'block';
+      topicTitle.textContent = topicName;
+      
+      // Generate a random paragraph based on the topic
+      loadingStatus.textContent = "✨ Generating writing prompt...";
+      await generateRandomParagraph(currentTopic, topicName);
+      loadingStatus.textContent = "✅ Prompt ready!";
+      
+      // Show word count selection
+      wordCountSection.style.display = 'block';
+    });
+  });
+
+  // Word Count Selection
+  wordCountButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Remove selection from all buttons
+      wordCountButtons.forEach(b => b.classList.remove('selected'));
+      // Add selection to clicked button
+      btn.classList.add('selected');
+      
+      currentWordCount = btn.getAttribute('data-words');
+      currentLevel = btn.getAttribute('data-level');
+      
+      // Show writing section
+      writingSection.style.display = 'block';
+      writingPrompt.innerHTML = `<strong>📝 Writing Task:</strong> Read the following paragraph and write your response:<br><br>${currentPrompt}`;
+    });
+  });
+
+  // Tab Switching
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const tabId = tab.getAttribute('data-tab');
+      
+      // Update active tab
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      
+      // Show active tab content
+      tabContents.forEach(content => {
+        content.classList.remove('active');
+        if (content.id === `${tabId}-tab`) {
+          content.classList.add('active');
+        }
+      });
+    });
+  });
+
+  // Word Count Tracking
+  userTextInput.addEventListener('input', () => {
+    const text = userTextInput.value;
+    const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+    wordCountDisplay.textContent = words;
+  });
+
+  // Generate Random Paragraph for Writing
+  async function generateRandomParagraph(topic, topicName) {
+    const paragraphPrompts = {
+      literature: [
+        "The autumn leaves crunched beneath her feet as she walked through the forgotten garden, each step echoing in the silent afternoon. The once vibrant roses now stood as brittle skeletons, their beauty preserved only in memory. She remembered her grandmother telling stories of this very place, of laughter that once filled the air and love that bloomed more beautifully than any flower.",
+        "He opened the leather-bound journal, its pages yellowed with age and filled with elegant cursive writing. The first entry began: 'Today I met a stranger whose eyes held entire universes, and in that moment, I understood that some souls are destined to collide.' The words seemed to breathe life into the quiet room, telling a story decades old.",
+        "The poet sat by the window, watching rain trace paths down the glass pane. Each droplet carried a story, a memory, a fragment of a life lived. She picked up her pen, knowing that the most profound verses often emerged from the quietest moments, from the spaces between heartbeats."
+      ],
+      history: [
+        "The discovery of ancient artifacts in the Mesopotamian valley revolutionized our understanding of early human civilization. These clay tablets, inscribed with cuneiform script, revealed sophisticated systems of law, trade, and governance that existed thousands of years before previously thought possible.",
+        "During the Renaissance, a remarkable convergence of art, science, and philosophy transformed European society. Thinkers began questioning long-held beliefs, exploring human potential, and looking at the world through a new lens of curiosity and empirical observation.",
+        "The construction of the Great Wall of China represents one of humanity's most ambitious engineering projects. Stretching thousands of miles across challenging terrain, it stands as a testament to human determination and the complex relationship between protection and isolation."
+      ],
+      art: [
+        "Vincent van Gogh's 'Starry Night' captures more than just a nocturnal landscape; it represents the artist's emotional turmoil and unique perception of the world. The swirling skies and vibrant colors convey a sense of movement and emotion that transcends literal representation.",
+        "The haunting melody of Beethoven's Moonlight Sonata seems to tell a story without words. Each note carries emotional weight, building tension and release in a way that speaks directly to the human soul, proving that music can communicate what language sometimes cannot.",
+        "When Frida Kahlo painted self-portraits that documented her physical and emotional pain, she transformed personal suffering into universal art. Her unflinching gaze challenges viewers to confront their own vulnerabilities and find beauty in imperfect humanity."
+      ],
+      politics: [
+        "The recent global summit on climate policy highlighted the complex interplay between economic development and environmental protection. Delegates debated how to balance immediate economic needs with long-term planetary health, revealing deep divisions between industrialized and developing nations.",
+        "Digital democracy presents both opportunities and challenges for modern governance. While social media enables broader participation in political discourse, it also creates echo chambers and spreads misinformation, testing the resilience of democratic institutions worldwide.",
+        "The shifting balance of power in international relations reflects changing economic realities and emerging technologies. Nations must navigate complex alliances while addressing domestic concerns about sovereignty and economic security in an increasingly interconnected world."
+      ],
+      economics: [
+        "The rise of cryptocurrency represents one of the most significant financial innovations of the 21st century. While offering potential for financial inclusion and decentralization, it also poses challenges for regulatory frameworks and traditional banking systems.",
+        "Global supply chain disruptions during the pandemic revealed the fragility of just-in-time manufacturing models. Companies now face difficult decisions about balancing efficiency with resilience, considering whether to prioritize cost savings or operational stability.",
+        "The gig economy has transformed traditional employment relationships, offering flexibility for workers while raising questions about job security and benefits. This shift challenges existing labor laws and social safety nets designed for more stable employment patterns."
+      ],
+      science: [
+        "Recent breakthroughs in CRISPR gene editing technology have opened unprecedented possibilities for treating genetic disorders. Scientists can now precisely target and modify DNA sequences, offering hope for conditions previously considered untreatable.",
+        "The James Webb Space Telescope's stunning images of distant galaxies are revolutionizing our understanding of the universe's origins. These observations challenge existing cosmological models and prompt new questions about dark matter and the universe's expansion.",
+        "Research into quantum computing suggests we may be approaching a technological threshold where classical computers can no longer solve certain complex problems. Quantum systems could revolutionize fields from drug discovery to cryptography, though significant engineering challenges remain."
+      ],
+      ai: [
+        "The rapid advancement of large language models has sparked intense debate about artificial general intelligence. While these systems demonstrate remarkable language capabilities, experts disagree about whether they represent steps toward true understanding or sophisticated pattern matching.",
+        "AI ethics committees worldwide grapple with questions of bias, accountability, and transparency in machine learning systems. As algorithms make increasingly important decisions, ensuring they align with human values becomes both more crucial and more challenging.",
+        "The integration of AI in creative industries raises fundamental questions about art, originality, and human expression. Can algorithms truly create, or are they merely remixing existing human creativity in novel ways?"
+      ],
+      environment: [
+        "Coral bleaching events in the Great Barrier Reef serve as visible warnings of ocean warming. These vibrant ecosystems, home to incredible biodiversity, face existential threats from climate change, pollution, and ocean acidification.",
+        "The transition to renewable energy involves complex trade-offs between environmental protection and resource extraction. Solar panels and wind turbines require rare earth minerals, creating new environmental challenges even as they address climate change.",
+        "Reforestation initiatives worldwide demonstrate nature's remarkable resilience when given opportunity. However, successful restoration requires understanding local ecosystems rather than simply planting trees, highlighting the importance of ecological knowledge in conservation efforts."
+      ]
+    };
+
+    // For simulation mode, use pre-defined paragraphs
+    if (document.getElementById("simMode").checked) {
+      const prompts = paragraphPrompts[topic];
+      const randomPrompt = prompts[Math.floor(Math.random() * prompts.length)];
+      currentPrompt = randomPrompt;
+      topicPrompt.textContent = randomPrompt;
+      return;
+    }
+
+    // For real mode, use LLM to generate a random paragraph
+    try {
+      const apiKey = apiKeyInput.value.trim();
+      if (!apiKey) {
+        throw new Error("Please save your API Key first.");
+      }
+
+      const systemPrompt = `Generate a short, engaging paragraph (3-5 sentences) about ${topicName} that can serve as a writing prompt. The paragraph should be interesting, thought-provoking, and suitable for English writing practice. Make it specific and engaging.`;
+
+      const response = await fetch("https://api.deepseek.com/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          model: "deepseek-chat",
+          messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: `Generate a paragraph about ${topicName} for writing practice.` }
+          ],
+          stream: false
+        })
+      });
+
+      if (!response.ok) throw new Error(`API Error: ${response.status}`);
+      const data = await response.json();
+      currentPrompt = data.choices[0].message.content;
+      topicPrompt.textContent = currentPrompt;
+    } catch (error) {
+      // Fallback to simulation mode if API fails
+      console.error("API call failed, using simulation:", error);
+      const prompts = paragraphPrompts[topic];
+      const randomPrompt = prompts[Math.floor(Math.random() * prompts.length)];
+      currentPrompt = randomPrompt;
+      topicPrompt.textContent = randomPrompt;
+    }
+  }
+
+  // [Rest of the JavaScript functions remain the same as previous version...]
+  // Enhanced System Prompts
+  function buildAssessmentPrompt(level, wordCount) {
+    return [
+      `Role: You are an expert English Examiner and Writing Tutor.`,
+      `Target Level: Assess strictly based on ${level} CEFR standards. Expected word count: ${wordCount}.`,
+      `Writing Prompt Context: "${currentPrompt}"`,
+      `Assessment Criteria:`,
+      "1. Language: Grammar accuracy, vocabulary range, and sentence complexity.",
+      "2. Coherence: Logical flow, transition usage, and paragraph linking.",
+      "3. Content: Relevance to the prompt, depth of analysis, and argument strength.",
+      "4. Organization: Structure, introduction/thesis, and conclusion.",
+      "Format: Output strictly as follows (no markdown):",
+      "OVERALL: [One sentence summary with encouragement]",
+      "SCORE_LANG: [Score/10] - [Comment with specific examples]",
+      "SCORE_COH: [Score/10] - [Comment with specific examples]",
+      "SCORE_CON: [Score/10] - [Comment with specific examples]",
+      "SCORE_ORG: [Score/10] - [Comment with specific examples]",
+      "VOCAB_ENHANCE: [List 3-5 vocabulary enhancement suggestions in format: 'basic_word → enhanced_word (context)']"
+    ].join("\n");
+  }
+
+  function buildModelEssayPrompt(level, wordCount) {
+    return [
+      `Role: You are an expert English writer and educator.`,
+      `Task: Write a model essay responding to this writing prompt: "${currentPrompt}"`,
+      `Requirements:`,
+      `- Target level: ${level} CEFR`,
+      `- Word count: Approximately ${wordCount} words`,
+      `- Structure: Clear introduction, body paragraphs, and conclusion`,
+      `- Content: Demonstrate sophisticated vocabulary, complex sentence structures, and logical flow`,
+      `- Include relevant examples and evidence where appropriate`,
+      `Output: The essay only, without any additional commentary or assessment.`
+    ].join("\n");
+  }
+
+  function buildRevisionPrompt(original, feedback, level) {
+    return [
+      `Role: You are an encouraging English writing tutor.`,
+      `Task: Provide specific, actionable feedback on how to improve this revised essay.`,
+      `Original Writing Prompt: "${currentPrompt}"`,
+      `Original Essay: "${original}"`,
+      `Previous Feedback: "${feedback}"`,
+      `Target Level: ${level}`,
+      `Focus on:`,
+      `- How well the student addressed the previous feedback`,
+      `- Specific improvements made`,
+      `- Remaining areas for growth`,
+      `- Encouragement and positive reinforcement`,
+      `Format: Begin with an encouraging statement, then provide brief, specific suggestions.`
+    ].join("\n");
+  }
+
+  // Simulation Mode Responses
+  function simulateDeepSeekResponse() {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(`OVERALL: Good effort! You've presented clear arguments with a logical structure. With some vocabulary enhancement, this could be even stronger.
+SCORE_LANG: 7.0/10 - Accurate grammar but some repetitive vocabulary. Try using more academic terms.
+SCORE_COH: 8.0/10 - Good use of transitional phrases and logical flow between ideas.
+SCORE_CON: 7.5/10 - Relevant content with adequate examples, though more depth would strengthen your argument.
+SCORE_ORG: 8.5/10 - Clear structure with effective introduction and conclusion.
+VOCAB_ENHANCE: important → crucial (context: crucial evidence); good → beneficial (context: beneficial effects); show → demonstrate (context: demonstrate understanding); big → significant (context: significant impact); think → contend (context: scholars contend)`);
+      }, 1500);
+    });
+  }
+
+  function simulateModelEssay() {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(`The provided paragraph about ${currentTopic} offers a compelling starting point for reflection. While the original text presents an interesting scenario, several dimensions warrant further exploration to fully appreciate its implications and connections to broader themes.
+
+The relationship between individual experience and universal human conditions emerges as particularly significant. Personal narratives, when examined thoughtfully, often reveal patterns that resonate across different contexts and time periods. This intersection between the specific and the general represents a rich area for analytical writing.
+
+Furthermore, the emotional and psychological dimensions suggested in the prompt invite consideration of how internal states influence perception and interpretation. The ways people assign meaning to experiences, and how these interpretations evolve over time, constitute another fruitful line of inquiry.
+
+Ultimately, effective writing about such topics requires balancing concrete details with abstract reflection. Specific examples anchor the discussion in reality while broader analysis connects these details to larger ideas and patterns. This balance between particular and general creates writing that is both grounded and intellectually substantial.
+
+The most compelling responses will likely explore not just what the paragraph describes, but why it matters and how it connects to wider human experience and understanding.`);
+      }, 2000);
+    });
+  }
+
+  // API Calls
+  async function callDeepSeek(promptText, systemPrompt) {
+    const apiKey = apiKeyInput.value.trim();
+    if (!apiKey) throw new Error("Please save your API Key first.");
+
+    const response = await fetch("https://api.deepseek.com/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        model: "deepseek-chat",
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: promptText }
+        ],
+        stream: false
+      })
+    });
+
+    if (!response.ok) throw new Error(`API Error: ${response.status}`);
+    const data = await response.json();
+    return data.choices[0].message.content;
+  }
+
+  // UI Update Functions
+  function updateUI(responseText) {
+    const lines = responseText.split("\n");
+    let data = { 
+      overall: "Error parsing", 
+      lang: "N/A", 
+      coh: "N/A", 
+      con: "N/A", 
+      org: "N/A",
+      vocab: ""
+    };
+
+    lines.forEach(line => {
+      line = line.trim();
+      if (line.startsWith("OVERALL:")) data.overall = line.replace("OVERALL:", "").trim();
+      else if (line.startsWith("SCORE_LANG:")) data.lang = line.replace("SCORE_LANG:", "").trim();
+      else if (line.startsWith("SCORE_COH:")) data.coh = line.replace("SCORE_COH:", "").trim();
+      else if (line.startsWith("SCORE_CON:")) data.con = line.replace("SCORE_CON:", "").trim();
+      else if (line.startsWith("SCORE_ORG:")) data.org = line.replace("SCORE_ORG:", "").trim();
+      else if (line.startsWith("VOCAB_ENHANCE:")) data.vocab = line.replace("VOCAB_ENHANCE:", "").trim();
+    });
+
+    const splitData = (str) => {
+      const parts = str.split("-");
+      if (parts.length < 2) return { score: "", text: str };
+      return { score: parts[0].trim(), text: parts.slice(1).join("-").trim() };
+    };
+
+    document.getElementById("generalFeedback").textContent = data.overall;
+    
+    const l = splitData(data.lang); 
+    document.getElementById("score-lang").textContent = l.score; 
+    document.getElementById("desc-lang").textContent = l.text;
+    
+    const c = splitData(data.coh); 
+    document.getElementById("score-coh").textContent = c.score; 
+    document.getElementById("desc-coh").textContent = c.text;
+    
+    const cn = splitData(data.con); 
+    document.getElementById("score-con").textContent = cn.score; 
+    document.getElementById("desc-con").textContent = cn.text;
+    
+    const o = splitData(data.org); 
+    document.getElementById("score-org").textContent = o.score; 
+    document.getElementById("desc-org").textContent = o.text;
+
+    // Handle vocabulary suggestions
+    if (data.vocab) {
+      vocabSuggestions.style.display = 'block';
+      const vocabItems = data.vocab.split(';').map(item => {
+        const parts = item.split('→');
+        if (parts.length === 2) {
+          return `<div style="margin: 8px 0; padding: 12px; background: var(--secondary-color); border-radius: 8px;">
+            <strong>${parts[0].trim()}</strong> → ${parts[1].trim()}
+          </div>`;
+        }
+        return '';
+      }).join('');
+      vocabList.innerHTML = vocabItems;
+    }
+
+    assessmentReport.style.display = "block";
+    assessmentReport.scrollIntoView({ behavior: "smooth" });
+  }
+
+  // Event Listeners for Main Actions
+  assessBtn.addEventListener("click", async () => {
+    const text = userTextInput.value.trim();
+    if (!text) { alert("Please enter text."); return; }
+    if (!currentTopic || !currentWordCount) { alert("Please select a topic and word count first."); return; }
+
+    originalEssay = text;
+    revisedTextInput.value = text; // Copy to revision tab
+
+    loadingStatus.textContent = "🔍 Analyzing your writing...";
+    assessBtn.disabled = true;
+    assessmentReport.style.display = "none"; 
+
+    try {
+      let reply;
+      const systemPrompt = buildAssessmentPrompt(currentLevel, currentWordCount);
+      
+      if (document.getElementById("simMode").checked) {
+        reply = await simulateDeepSeekResponse();
+      } else {
+        reply = await callDeepSeek(text, systemPrompt);
+      }
+      updateUI(reply);
+      loadingStatus.textContent = "✅ Analysis complete!";
+      
+      // Switch to model essay tab
+      document.querySelector('[data-tab="model"]').click();
+    } catch (err) {
+      loadingStatus.textContent = "❌ Error: " + err.message;
+      loadingStatus.className = "status error";
+    } finally {
+      assessBtn.disabled = false;
+    }
+  });
+
+  generateModelBtn.addEventListener("click", async () => {
+    if (!currentTopic || !currentWordCount) { 
+      alert("Please select a topic and word count first."); 
+      return; 
+    }
+
+    loadingStatus.textContent = "✨ Generating model essay...";
+    generateModelBtn.disabled = true;
+
+    try {
+      let modelEssay;
+      const systemPrompt = buildModelEssayPrompt(currentLevel, currentWordCount);
+      
+      if (document.getElementById("simMode").checked) {
+        modelEssay = await simulateModelEssay();
+      } else {
+        modelEssay = await callDeepSeek("Write a model essay responding to the writing prompt.", systemPrompt);
+      }
+      
+      modelEssayContent.textContent = modelEssay;
+      loadingStatus.textContent = "✅ Model essay generated!";
+      
+      // Switch to revise tab
+      document.querySelector('[data-tab="revise"]').click();
+    } catch (err) {
+      loadingStatus.textContent = "❌ Error: " + err.message;
+      loadingStatus.className = "status error";
+    } finally {
+      generateModelBtn.disabled = false;
+    }
+  });
+
+  resubmitBtn.addEventListener("click", async () => {
+    const revisedText = revisedTextInput.value.trim();
+    if (!revisedText) { alert("Please write your revision first."); return; }
+
+    loadingStatus.textContent = "🔍 Evaluating your revisions...";
+    resubmitBtn.disabled = true;
+
+    try {
+      // For simulation, just show encouragement
+      if (document.getElementById("simMode").checked) {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        encouragementMessage.style.display = 'block';
+        encouragementMessage.textContent = "🎉 Excellent revisions! You've successfully incorporated the feedback and your writing shows significant improvement. Your arguments are now more sophisticated and well-supported.";
+      } else {
+        // In real mode, we would call the API for revision feedback
+        const systemPrompt = buildRevisionPrompt(originalEssay, document.getElementById("generalFeedback").textContent, currentLevel);
+        const feedback = await callDeepSeek(revisedText, systemPrompt);
+        encouragementMessage.style.display = 'block';
+        encouragementMessage.textContent = feedback;
+      }
+      
+      loadingStatus.textContent = "✅ Revision evaluated!";
+    } catch (err) {
+      loadingStatus.textContent = "❌ Error: " + err.message;
+      loadingStatus.className = "status error";
+    } finally {
+      resubmitBtn.disabled = false;
+    }
+  });
+</script>
+</body>
+</html>
